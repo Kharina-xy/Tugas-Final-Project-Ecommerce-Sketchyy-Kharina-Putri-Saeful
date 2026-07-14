@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketchyy | Art Supplies Premium</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== ORDER TOAST - BIG CENTER ===== -->
+<div class="order-toast-overlay" id="orderToastOverlay">
+    <div class="order-toast-card">
+        <span class="icon">🎉</span>
+        <h2 id="orderToastTitle">Pesanan Berhasil!</h2>
+        <div class="order-number-label" id="orderToastLabel">Nomor Pesanan</div>
+        <div class="order-number" id="orderToastNumber">#SK-2026-0001</div>
+        <p class="thank-you" id="orderToastThankYou">Terima kasih telah berbelanja di Sketchyy! ✨</p>
+        <button class="btn-close-order" onclick="closeOrderToast()" id="orderToastButton">Kembali ke Home</button>
+    </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="container header-flex">
+        <a class="logo" onclick="showPage('home')">🎨 Sketchyy <span>Art</span></a>
+
+        <div class="lang-switcher">
+            <button class="active" onclick="setLanguage('id')" id="langId">🇮🇩 ID</button>
+            <button onclick="setLanguage('en')" id="langEn">🇬🇧 EN</button>
+        </div>
+
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Cari produk..." autocomplete="off">
+            <div class="suggestions-box" id="suggestionsBox"></div>
+        </div>
+
+        <div class="nav-actions">
+            <button class="action-btn" onclick="showPage('auth')">
+                <span>👤</span>
+                <span class="label" id="navAccount">Akun</span>
+            </button>
+            <button class="action-btn" onclick="openCart()">
+                🛒
+                <span class="badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ===== MAIN NAV ===== -->
+<nav class="main-nav">
+    <div class="container">
+        <ul class="nav-list" id="mainNav">
+            <li><a class="active" onclick="showPage('home')" data-key="navHome">🏠 Home</a></li>
+            <li><a onclick="showPage('catalog')" data-key="navCatalog">📦 Katalog</a></li>
+            <li><a onclick="showPage('detail')" data-key="navDetail">📖 Detail</a></li>
+            <li><a onclick="showPage('checkout')" data-key="navCheckout">💳 Checkout</a></li>
+            <li><a onclick="showPage('admin')" data-key="navAdmin">📊 Admin</a></li>
+            <li><a onclick="showPage('about')" data-key="navAbout">ℹ️ Tentang</a></li>
+            <li><a onclick="showPage('faq')" data-key="navFaq">❓ FAQ</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: HOME ===== -->
+<div class="page active" id="page-home">
+    <div class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="badge" data-key="heroBadge">🌟 New Collection 2026</div>
+                <h1 data-key="heroTitle">Bring Your <span>Creativity</span> to Life</h1>
+                <p data-key="heroDesc">Premium art supplies for every artist. From sketchbooks to watercolors, we have everything you need.</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="showPage('catalog')" data-key="heroShop">Shop Now →</button>
+                    <button class="btn-secondary" onclick="showPage('about')" data-key="heroLearn">Learn More</button>
+                </div>
+            </div>
+            <img class="hero-img" src="my%20sketchh.jpg" alt="Art supplies">
+        </section>
+
+        <!-- CATEGORIES -->
+        <div class="section-header">
+            <div class="section-title" data-key="categoriesTitle">📂 <span class="highlight">Kategori</span> <span class="sub">Pilih sesuai kebutuhan</span></div>
+        </div>
+        <div class="categories-scroll" id="categoriesContainer">
+            <div class="category-item active" data-category="all" onclick="filterCategory('all', this)">
+                <span class="icon">🎨</span>
+                <span class="name" data-key="catAll">All</span>
+            </div>
+            <div class="category-item" data-category="drawing" onclick="filterCategory('drawing', this)">
+                <span class="icon">✏️</span>
+                <span class="name" data-key="catDrawing">Drawing</span>
+            </div>
+            <div class="category-item" data-category="painting" onclick="filterCategory('painting', this)">
+                <span class="icon">🖌️</span>
+                <span class="name" data-key="catPainting">Painting</span>
+            </div>
+            <div class="category-item" data-category="paper" onclick="filterCategory('paper', this)">
+                <span class="icon">📓</span>
+                <span class="name" data-key="catPaper">Paper</span>
+            </div>
+            <div class="category-item" data-category="accessories" onclick="filterCategory('accessories', this)">
+                <span class="icon">🧰</span>
+                <span class="name" data-key="catAccessories">Accessories</span>
+            </div>
+        </div>
+
+        <!-- FEATURED PRODUCTS -->
+        <div class="section-header">
+            <div class="section-title" data-key="featuredTitle">⭐ <span class="highlight">Produk Unggulan</span></div>
+            <span class="view-all" onclick="showPage('catalog')" data-key="viewAll">Lihat Semua →</span>
+        </div>
+        <div class="featured-grid" id="featuredGrid"></div>
+
+        <!-- NEW PRODUCTS -->
+        <div class="section-header">
+            <div class="section-title" data-key="newTitle">🆕 <span class="highlight">Produk Terbaru</span></div>
+            <span class="view-all" onclick="showPage('catalog')" data-key="viewAll">Lihat Semua →</span>
+        </div>
+        <div class="featured-grid" id="newGrid"></div>
+
+        <!-- BEST SELLERS -->
+        <div class="section-header">
+            <div class="section-title" data-key="bestTitle">🔥 <span class="highlight">Produk Terlaris</span></div>
+            <span class="view-all" onclick="showPage('catalog')" data-key="viewAll">Lihat Semua →</span>
+        </div>
+        <div class="featured-grid" id="bestGrid"></div>
+
+        <!-- TESTIMONIALS -->
+        <div class="section-header">
+            <div class="section-title" data-key="testimonialTitle">💬 <span class="highlight">Testimoni</span> <span class="sub">Apa kata mereka</span></div>
+        </div>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="text" data-key="testimonial1">"Kualitas Sketchbooknya bagus banget! Kertasnya tebal dan tidak mudah robek. Barang sesuai gambar dan deskripsi"</div>
+                <div class="customer">
+                    <div class="avatar">A</div>
+                    <div>
+                        <div class="name">Zoe Ragavan</div>
+                        <div class="role" data-key="roleIllustrator">Illustrator</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <div class="text" data-key="testimonial2">"Kualitas Penghapusnya Bagus banget! Ngehapus dengan bersih. Recommended bangettt"</div>
+                <div class="customer">
+                    <div class="avatar">S</div>
+                    <div>
+                        <div class="name">Baeblue</div>
+                        <div class="role" data-key="roleArtist">Seniman</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐</div>
+                <div class="text" data-key="testimonial3">"Pensil mekaniknya nyaman digenggam, hasil garisnya presisi dan grafitnya tidak mudah patah. Pengirimannya juga cepat!"</div>
+                <div class="customer">
+                    <div class="avatar">B</div>
+                    <div>
+                        <div class="name">Hendarmoko</div>
+                        <div class="role" data-key="roleArchitect">Arsitektur</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐</div>
+                <div class="text" data-key="testimonial4">"Cat Akriliknya bagus banget! warnya nya pekat, hasil lukisku jadi manakjubkan^^"</div>
+                <div class="customer">
+                    <div class="avatar">B</div>
+                    <div>
+                        <div class="name">Cheong ah</div>
+                        <div class="role" data-key="roleArtist2">Pelukis</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: CATALOG ===== -->
+<div class="page" id="page-catalog">
+    <div class="container">
+        <div class="breadcrumb"><span data-key="breadcrumbHome">🏠 Beranda</span> / <span data-key="breadcrumbCatalog">Katalog</span></div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+            <h1 style="font-size:28px; color:var(--dark);" data-key="catalogTitle">📦 Katalog Produk</h1>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <select id="filterCategory" onchange="applyFilters()" style="padding:8px 16px; border:2px solid #e8e0d6; border-radius:12px; background:white; font-size:14px;">
+                    <option value="all" data-key="filterAll">Semua Kategori</option>
+                    <option value="drawing" data-key="catDrawing">Drawing</option>
+                    <option value="painting" data-key="catPainting">Painting</option>
+                    <option value="paper" data-key="catPaper">Paper</option>
+                    <option value="accessories" data-key="catAccessories">Accessories</option>
+                </select>
+                <select id="sortBy" onchange="applyFilters()" style="padding:8px 16px; border:2px solid #e8e0d6; border-radius:12px; background:white; font-size:14px;">
+                    <option value="featured" data-key="sortFeatured">Terbaru</option>
+                    <option value="price-asc" data-key="sortPriceAsc">Harga Termurah</option>
+                    <option value="price-desc" data-key="sortPriceDesc">Harga Tertinggi</option>
+                    <option value="rating" data-key="sortRating">Rating Terbaik</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="product-grid" id="catalogGrid"></div>
+        <div id="catalogLoader" style="text-align:center; padding:40px; color:var(--text-light); display:none;" data-key="loadingMore">Loading more products...</div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: PRODUCT DETAIL ===== -->
+<div class="page" id="page-detail">
+    <div class="container">
+        <div class="breadcrumb"><span data-key="breadcrumbHome">🏠 Beranda</span> / <span data-key="breadcrumbCatalog">Katalog</span> / <span id="detailBreadcrumbName">Sketchbook</span></div>
+        <div id="detailContainer"></div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: CHECKOUT ===== -->
+<div class="page" id="page-checkout">
+    <div class="container">
+        <div class="breadcrumb"><span data-key="breadcrumbHome">🏠 Beranda</span> / <span data-key="breadcrumbCart">Keranjang</span> / <span data-key="breadcrumbCheckout">Checkout</span></div>
+        <h1 style="font-size:28px; color:var(--dark); margin-bottom:20px;" data-key="checkoutTitle">💳 Checkout</h1>
+
+        <div class="checkout-grid">
+            <div class="form-section">
+                <h3 data-key="shippingInfo">📋 Informasi Pengiriman</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="fullName">Nama Lengkap</label>
+                        <input type="text" id="checkoutName" placeholder="Nama lengkap">
+                    </div>
+                    <div class="form-group">
+                        <label data-key="phoneNumber">Nomor Telepon</label>
+                        <input type="text" id="checkoutPhone" placeholder="08xx-xxxx-xxxx">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label data-key="address">Alamat Pengiriman</label>
+                    <input type="text" id="checkoutAddress" placeholder="Jl. Contoh No. 123, Kota">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-key="city">Kota</label>
+                        <input type="text" id="checkoutCity" placeholder="Kota">
+                    </div>
+                    <div class="form-group">
+                        <label data-key="postalCode">Kode Pos</label>
+                        <input type="text" id="checkoutPostal" placeholder="Kode Pos">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label data-key="paymentMethod">Metode Pembayaran</label>
+                    <select id="checkoutPayment">
+                        <option value="bank" data-key="paymentBank">🏦 Transfer Bank</option>
+                        <option value="va" data-key="paymentVA">🏧 Virtual Account</option>
+                        <option value="qris" data-key="paymentQRIS">📱 QRIS</option>
+                        <option value="ewallet" data-key="paymentEWallet">💳 E-Wallet</option>
+                        <option value="cod" data-key="paymentCOD">🚚 COD</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-key="notes">Catatan (Opsional)</label>
+                    <input type="text" id="checkoutNotes" placeholder="Catatan untuk penjual">
+                </div>
+            </div>
+
+            <div class="checkout-summary">
+                <h3 data-key="orderSummary">🛒 Ringkasan Pesanan</h3>
+                <div id="checkoutItems"></div>
+                <div class="summary-item">
+                    <span data-key="shippingCost">Ongkos Kirim</span>
+                    <span id="checkoutShipping">Rp 20.000</span>
+                </div>
+                <div class="summary-item total">
+                    <span data-key="total">Total</span>
+                    <span id="checkoutTotal">Rp 0</span>
+                </div>
+                <button class="btn-primary" style="width:100%; justify-content:center; margin-top:12px;" onclick="confirmOrder()" data-key="confirmOrder">
+                    ✅ Konfirmasi Pesanan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: AUTH ===== -->
+<div class="page" id="page-auth">
+    <div class="container">
+        <div id="authFormContainer">
+            <div class="auth-form">
+                <h2 id="authTitle" data-key="loginTitle">👤 Login</h2>
+                <div class="form-group">
+                    <label data-key="username">Nama Pengguna</label>
+                    <input type="text" id="authUsername" placeholder="Masukkan username">
+                </div>
+                <div class="form-group">
+                    <label data-key="password">Kata Sandi</label>
+                    <input type="password" id="authPassword" placeholder="Masukkan password">
+                </div>
+                <button class="btn-submit" onclick="authLogin()" id="authSubmitBtn" data-key="loginBtn">Login</button>
+                <div class="switch">
+                    <span id="authSwitchText" data-key="noAccount">Belum punya akun? <a onclick="authSwitch()">Daftar</a></span>
+                </div>
+            </div>
+        </div>
+        <div id="authProfile" style="display:none;">
+            <div style="background:white; border-radius:var(--radius); padding:32px; box-shadow:var(--shadow);">
+                <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+                    <div style="width:80px; height:80px; border-radius:50%; background:var(--cream); display:flex; align-items:center; justify-content:center; font-size:36px; color:var(--primary);">👤</div>
+                    <div>
+                        <h2 id="profileName" style="font-size:24px;">user123</h2>
+                        <p style="color:var(--text-light);" data-key="memberSince">Member since 2026</p>
+                    </div>
+                    <button class="btn-secondary" style="margin-left:auto;" onclick="authLogout()" data-key="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: ADMIN ===== -->
+<div class="page" id="page-admin">
+    <div class="container">
+        <div id="adminContent">
+            <!-- Will be rendered by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: ABOUT ===== -->
+<div class="page" id="page-about">
+    <div class="container">
+        <div class="breadcrumb"><span data-key="breadcrumbHome">🏠 Beranda</span> / <span data-key="navAbout">Tentang Kami</span></div>
+        <div style="background:white; border-radius:var(--radius); padding:40px; box-shadow:var(--shadow); margin:20px 0;">
+            <h1 style="font-size:32px; color:var(--dark); margin-bottom:16px;" data-key="aboutTitle">ℹ️ Tentang Sketchyy</h1>
+            <p style="color:var(--text-light); font-size:16px; line-height:1.8; max-width:700px;" data-key="aboutDesc">
+                Sketchyy adalah toko perlengkapan seni premium yang didirikan pada tahun 2022 dengan tujuan untuk
+                menyediakan alat-alat berkualitas tinggi bagi para seniman, ilustrator, dan pecinta seni.
+                Kami percaya bahwa setiap orang memiliki bakat seni yang luar biasa, dan kami hadir untuk membantu
+                mewujudkannya dengan produk-produk terbaik dari berbagai merek ternama dunia.
+            </p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-top:30px;">
+                <div style="text-align:center; padding:20px; background:var(--cream); border-radius:12px;">
+                    <div style="font-size:32px;">🎯</div>
+                    <h4 style="margin:8px 0;" data-key="mission">Misi</h4>
+                    <p style="font-size:14px; color:var(--text-light);" data-key="missionDesc">Menyediakan alat seni berkualitas</p>
+                </div>
+                <div style="text-align:center; padding:20px; background:var(--cream); border-radius:12px;">
+                    <div style="font-size:32px;">👁️</div>
+                    <h4 style="margin:8px 0;" data-key="vision">Visi</h4>
+                    <p style="font-size:14px; color:var(--text-light);" data-key="visionDesc">Menjadi destinasi utama para seniman</p>
+                </div>
+                <div style="text-align:center; padding:20px; background:var(--cream); border-radius:12px;">
+                    <div style="font-size:32px;">💎</div>
+                    <h4 style="margin:8px 0;" data-key="values">Nilai</h4>
+                    <p style="font-size:14px; color:var(--text-light);" data-key="valuesDesc">Kualitas, Integritas, dan Pelayanan terbaik</p>
+                </div>
+            </div>
+        </div>
+        <div style="background:white; border-radius:var(--radius); padding:40px; box-shadow:var(--shadow); margin:20px 0;">
+            <h2 style="font-size:22px; margin-bottom:12px;" data-key="contactTitle">📞 Kontak Kami</h2>
+            <p style="color:var(--text-light);">📞 +62 838 5313 5082</p>
+            <p style="color:var(--text-light);">✉️ Kharinaputri33@gmail.com</p>
+            <p style="color:var(--text-light);">📍 Bandung, Indonesia</p>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== PAGE: FAQ ===== -->
+<div class="page" id="page-faq">
+    <div class="container">
+        <div class="breadcrumb"><span data-key="breadcrumbHome">🏠 Beranda</span> / <span data-key="navFaq">FAQ</span></div>
+        <h1 style="font-size:28px; color:var(--dark); margin:20px 0;" data-key="faqTitle">❓ Frequently Asked Questions</h1>
+
+        <div class="faq-item">
+            <div class="question" onclick="toggleFaq(this)">
+                <span data-key="faq1q">Bagaimana cara memesan produk?</span>
+                <span class="icon">▼</span>
+            </div>
+            <div class="answer" data-key="faq1a">Kamu dapat memilih produk yang diinginkan, klik "Tambah ke Keranjang", lalu lanjutkan ke halaman Checkout untuk mengisi data pengiriman dan melakukan pembayaran.</div>
+        </div>
+        <div class="faq-item">
+            <div class="question" onclick="toggleFaq(this)">
+                <span data-key="faq2q">Apakah ada garansi untuk produk?</span>
+                <span class="icon">▼</span>
+            </div>
+            <div class="answer" data-key="faq2a">Ya, semua produk kami memiliki garansi 30 hari untuk kerusakan produk yang disebabkan oleh cacat pabrik.</div>
+        </div>
+        <div class="faq-item">
+            <div class="question" onclick="toggleFaq(this)">
+                <span data-key="faq3q">Berapa lama proses pengiriman?</span>
+                <span class="icon">▼</span>
+            </div>
+            <div class="answer" data-key="faq3a">Pengiriman biasanya memakan waktu 2-5 hari kerja tergantung lokasi pengiriman.</div>
+        </div>
+        <div class="faq-item">
+            <div class="question" onclick="toggleFaq(this)">
+                <span data-key="faq4q">Apakah bisa retur barang?</span>
+                <span class="icon">▼</span>
+            </div>
+            <div class="answer" data-key="faq4a">Ya, Kamu dapat mengembalikan barang dalam waktu 14 hari setelah penerimaan dengan syarat produk tidak rusak dan masih dalam kemasan asli.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== CART MODAL ===== -->
+<div class="modal-overlay" id="cartModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 data-key="cartTitle">🛍️ Keranjang Belanja</h3>
+            <button class="close" onclick="closeCart()">✕</button>
+        </div>
+        <div class="modal-body" id="cartBody">
+            <div class="empty-cart">
+                <div class="icon">🛒</div>
+                <p data-key="emptyCart">Keranjang masih kosong</p>
+                <small style="color:var(--text-light);" data-key="emptyCartSub">Yuk, belanja dulu!</small>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="clearCart()" data-key="clearCart">Kosongkan</button>
+            <button class="btn-primary" onclick="proceedToCheckout()" data-key="checkoutBtn">Checkout →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+</body>
+</html>
